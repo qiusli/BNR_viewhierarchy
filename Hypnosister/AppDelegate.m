@@ -19,10 +19,24 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    // create screen sized CGRect
+    CGRect screenRect = self.window.bounds;
+    CGRect bigRect = screenRect;
+    bigRect.size.width = screenRect.size.width * 2;
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:screenRect];
+    scrollView.pagingEnabled = true;
+    [self.window addSubview:scrollView];
+    
     // Override point for customization after application launch.
-    CGRect firstFrame = self.window.bounds;
-    BNRHypnosisView *firstView = [[BNRHypnosisView alloc] initWithFrame:firstFrame];
-    [self.window addSubview:firstView];
+    BNRHypnosisView *hypnosisView = [[BNRHypnosisView alloc] initWithFrame:screenRect];
+    [scrollView addSubview:hypnosisView];
+    
+    screenRect.origin.x += screenRect.size.width;
+    BNRHypnosisView *anotherView = [[BNRHypnosisView alloc] initWithFrame:screenRect];
+    [scrollView addSubview:anotherView];
+    
+    scrollView.contentSize = bigRect.size;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
